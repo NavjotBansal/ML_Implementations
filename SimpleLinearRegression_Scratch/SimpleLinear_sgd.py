@@ -79,7 +79,7 @@ def main():
 	dataset = dataset_df.values.tolist()
 
 	train,test = split_test_train(dataset,0.8)
-	predicted = linear_regression_simple(train,test,0.001,10000)
+	predicted = linear_regression_simple(train,test,0.001,25000)
 	actual = [row[-1] for row in test]
 	print(rmse(predicted,actual))
 	plt.plot(actual,'m')
