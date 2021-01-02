@@ -1,6 +1,8 @@
 import math
 #imports finished 
 
+
+# gini_score for impurtiy testing
 def gini_score(groups,classes):
 
 	gini =0.0
@@ -25,3 +27,15 @@ def gini_score(groups,classes):
 print(gini_score([[[1, 1], [1, 0]], [[1, 1], [1, 0]]], [0, 1]))
 print(gini_score([[[1, 0], [1, 0]], [[1, 1], [1, 1]]], [0, 1]))
 """
+
+def split_groups(data,index,value):
+	left,right = list(),list()
+	for rows in data:
+		if rows[index]<value:
+			left.append(rows)
+		else:
+			right.append(rows)
+	return left,right
+
+def get_split(data):
+	

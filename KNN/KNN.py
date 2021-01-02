@@ -5,6 +5,7 @@ from sklearn.preprocessing import LabelEncoder
 import math
 from sklearn.metrics import confusion_matrix
 import matplotlib.pyplot as plt
+import time
 #import finished
 
 def read_csv(filename):
@@ -87,12 +88,24 @@ def analyse(data,seed):
 		if w!=0:
 			c=c/w
 		error.append(c)
-	plt.scatter([i for i in range(1,len(error)+1)],error)
-	plt.plot([i for i in range(1,len(error)+1)],error)
-	plt.show()
+#	color ="C"+str(seed)
+#	plt.scatter([i for i in range(1,len(error)+1)],error,color=color,alpha=0.3)
+#	plt.plot([i for i in range(1,len(error)+1)],error,color=color,alpha=0.3)
+	return error
 
-seed_list = [2,6,11,18,19,20]
-for seed in seed_list:
-	analyse(data,seed)
+avg_score = [0.0 for i in range(1,21)]
+for seed in range(1,10):
+	error_list = list()
+	error_list.append(analyse(data,seed))
+	for error in error_list:
+		for i in range(len(error)):
+			avg_score[i] += error[i]
+	for error in error_list:
+		color ="C"+str(seed)
+		plt.scatter([i for i in range(1,len(error)+1)],error,color=color,alpha=0.3)
+		plt.plot([i for i in range(1,len(error)+1)],error,color=color,alpha=0.3)
+plt.show()
 
-
+plt.scatter([i for i in range(1,len(avg_score)+1)],avg_score)
+plt.plot([i for i in range(1,len(avg_score)+1)],avg_score)
+plt.show()
