@@ -92,20 +92,23 @@ def analyse(data,seed):
 #	plt.scatter([i for i in range(1,len(error)+1)],error,color=color,alpha=0.3)
 #	plt.plot([i for i in range(1,len(error)+1)],error,color=color,alpha=0.3)
 	return error
+def main():
+	avg_score = [0.0 for i in range(1,21)]
+	for seed in range(1,10):
+		error_list = list()
+		error_list.append(analyse(data,seed))
+		for error in error_list:
+			for i in range(len(error)):
+				avg_score[i] += error[i]
+		for error in error_list:
+			color ="C"+str(seed)
+			plt.scatter([i for i in range(1,len(error)+1)],error,color=color,alpha=0.3)
+			plt.plot([i for i in range(1,len(error)+1)],error,color=color,alpha=0.3)
+	plt.show()
 
-avg_score = [0.0 for i in range(1,21)]
-for seed in range(1,10):
-	error_list = list()
-	error_list.append(analyse(data,seed))
-	for error in error_list:
-		for i in range(len(error)):
-			avg_score[i] += error[i]
-	for error in error_list:
-		color ="C"+str(seed)
-		plt.scatter([i for i in range(1,len(error)+1)],error,color=color,alpha=0.3)
-		plt.plot([i for i in range(1,len(error)+1)],error,color=color,alpha=0.3)
-plt.show()
+	plt.scatter([i for i in range(1,len(avg_score)+1)],avg_score)
+	plt.plot([i for i in range(1,len(avg_score)+1)],avg_score)
+	plt.show()
 
-plt.scatter([i for i in range(1,len(avg_score)+1)],avg_score)
-plt.plot([i for i in range(1,len(avg_score)+1)],avg_score)
-plt.show()
+if __name__ == "__main__":
+	main()
