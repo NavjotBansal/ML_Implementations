@@ -1,4 +1,5 @@
 import math
+from sklearn.model_selection import train_test_split
 #imports finished 
 
 
@@ -103,6 +104,7 @@ def make_tree(data,min_rows,max_depth):
 	return root
 
 
+"""
 def print_tree(node, depth=0):
 	if isinstance(node, dict):
 		print('%s[X%d < %.3f]' % ((depth*' ', (node['index']+1), node['value'])))
@@ -110,7 +112,7 @@ def print_tree(node, depth=0):
 		print_tree(node['right'], depth+1)
 	else:
 		print('%s[%s]' % ((depth*' ', node)))
-"""
+
 dataset = [[2.771244718,1.784783929,0],
 	[1.728571309,1.169761413,0],
 	[3.678319846,2.81281357,0],
@@ -124,10 +126,47 @@ dataset = [[2.771244718,1.784783929,0],
 tree = make_tree(dataset, 1, 3)
 print_tree(tree)
 """
+def classify(node,row):
+	if row[node['index']]<node['value']:
+		if isinstance(node['left'],dict):
+			return clasify(node['left'],row)
+		else:
+			return node['left']
+	else:
+		if isinstance(node['right'],dict):
+			return classify(node['right'],row)
+		else:
+			return node['right']
 
+def make_prediction(data,test,min_rows,max_depth):
+	prediction = list()
+	tree = make_tree(data,min_rows,max_depth)
+	for row in test:
+		output = classify(tree,row)
+		prediction.append(output)
+	return prediction
 
+def main():
 
+	dataset = [[2.771244718,1.784783929,0],
+	[1.728571309,1.169761413,0],
+	[3.678319846,2.81281357,0],
+	[3.961043357,2.61995032,0],
+	[2.999208922,2.209014212,0],
+	[7.497545867,3.162953546,1],
+	[9.00220326,3.339047188,1],
+	[7.444542326,0.476683375,1],
+	[10.12493903,3.234550982,1],
+	[6.642287351,3.319983761,1]]
+ 
+#  predict with a stump
+	stump = {'index': 0, 'right': 1, 'value': 6.642287351, 'left': 0}
+	for row in dataset:
+		prediction = classify(stump, row)
+		print('Expected=%d, Got=%d' % (row[-1], prediction))
 
+if __name__ == "__main__":
+	main()
 
 
 
